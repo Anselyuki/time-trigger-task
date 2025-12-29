@@ -2,7 +2,6 @@ name: Time Trigger Task
 on:
   schedule:
     - cron: '*/5 * * * *'
-  workflow_dispatch: # 允许手动点击按钮触发，方便测试
 jobs:
   run_tasks:
     runs-on: ubuntu-latest
