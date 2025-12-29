@@ -1,0 +1,16 @@
+{
+  "task_name": "Episode_05",
+  "trigger_time": "2026-01-30 22:00:00",
+  "timezone": "Asia/Shanghai",
+  "webhook_url": "https://api.day.app/push",
+  "method": "POST",
+  "body": {
+    "title": "BanG Dream! Ave Mujica",
+    "subtitle": "EP5: 舍既成之本，逐未竟之业。(Facta fugis, facienda petis.)",
+    "group": "Bangumi Notification",
+    "level": "timeSensitive",
+    "icon": "https://avemujica.bang-dream.com/favicon.ico",
+    "markdown": "> 正值全国巡演高潮之际，乐队宣告解散。Ave Mujica 的成员们就此回归各自的人生轨迹。",
+    "url": "bilibili://video/BV1EGFAeaEBH"
+  }
+}

@@ -6,10 +6,11 @@
   "method": "POST",
   "body": {
     "title": "BanG Dream! Ave Mujica",
-    "subtitle": "EP2: 下载完成",
+    "subtitle": "EP2: 用结果说话。(Exitus Acta probat.)",
     "group": "Bangumi Notification",
-    "icon": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/00/a7/1c/00a71c88-3a35-db4f-2bfc-f3249cd1285c/Placeholder.mill/400x400bb-75.webp",
-    "markdown": "> - 中文标题: Exitus acta probat.\n> - 日文标题: Sub rosa.\n> - 更新进度: 2/13\n> - 字幕组: LoliHouse\n> - 首播:  2026年1月2日\n> - 番组计划 URL: [BanG Dream! Ave Mujica](https://bgm.tv/subject/454684)\n"
-  },
-  "executed_at": "2025-12-29 10:38:09"
+    "level": "timeSensitive",
+    "icon": "https://avemujica.bang-dream.com/favicon.ico",
+    "markdown": "> 在喵姆的精心策划下，Ave Mujica 成员在舞台上被强行摘下面具。暴露真容的少女们瞬间成为世界瞩目的焦点——惨遭暗算的祥子、嗤笑嘲讽的喵姆、憔悴不堪的睦。失去假面的人偶们即将迎来她们的首场化装舞会，这场盛宴将走向......",
+    "url": "bilibili://video/BV1ZVrhYfE9u"
+  }
 }

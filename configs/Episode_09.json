@@ -1,0 +1,16 @@
+{
+  "task_name": "Episode_08",
+  "trigger_time": "2026-02-27 22:00:00",
+  "timezone": "Asia/Shanghai",
+  "webhook_url": "https://api.day.app/push",
+  "method": "POST",
+  "body": {
+    "title": "BanG Dream! Ave Mujica",
+    "subtitle": "EP9: 君若离去，我不独生。(Ne vivam si abis.)",
+    "group": "Bangumi Notification",
+    "level": "timeSensitive",
+    "icon": "https://avemujica.bang-dream.com/favicon.ico",
+    "markdown": "> 图谋的海铃，依附的 Mortis，紧迫的喵姆，执念的初华——四人心思如藤蔓纠缠，各自怀揣隐秘欲望。在这场无声博弈中，命运交织，暗流涌动，彼此牵制又依存，编织成无法挣脱的网。",
+    "url": "bilibili://video/BV1N4PHezE8s"
+  }
+}

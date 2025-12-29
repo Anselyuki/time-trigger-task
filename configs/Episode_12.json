@@ -1,0 +1,16 @@
+{
+  "task_name": "Episode_12",
+  "trigger_time": "2026-03-20 22:00:00",
+  "timezone": "Asia/Shanghai",
+  "webhook_url": "https://api.day.app/push",
+  "method": "POST",
+  "body": {
+    "title": "BanG Dream! Ave Mujica",
+    "subtitle": "EP12: 风吹浪打，亦不沉默。(Fluctuat nec mergitur.)",
+    "group": "Bangumi Notification",
+    "level": "timeSensitive",
+    "icon": "https://avemujica.bang-dream.com/favicon.ico",
+    "markdown": "> 在如疾风怒涛般汹涌而至的命运中，奋力挣扎的她手中所残留的……",
+    "url": "bilibili://video/BV1tFQ9YPEH8"
+  }
+}

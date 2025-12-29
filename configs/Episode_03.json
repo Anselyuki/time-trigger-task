@@ -6,10 +6,11 @@
   "method": "POST",
   "body": {
     "title": "BanG Dream! Ave Mujica",
-    "subtitle": "EP3: 下载完成",
+    "subtitle": "EP3: 我该如何是好?(Quid faciam?)",
     "group": "Bangumi Notification",
-    "icon": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/00/a7/1c/00a71c88-3a35-db4f-2bfc-f3249cd1285c/Placeholder.mill/400x400bb-75.webp",
-    "markdown": "> - 中文标题: 我该如何是好?\n> - 日文标题: Quid faciam?\n> - 更新进度: 3/13\n> - 字幕组: LoliHouse\n> - 首播:  2026年1月2日\n> - 番组计划 URL: [BanG Dream! Ave Mujica](https://bgm.tv/subject/454684)\n"
-  },
-  "executed_at": "2025-12-29 10:38:09"
+    "level": "timeSensitive",
+    "icon": "https://avemujica.bang-dream.com/favicon.ico",
+    "markdown": "> 睦因为精神的疲惫而在演唱会的演奏中出错。她倒坐在椅子上的模样有如断了线的人偶，使得观众看了不禁屏息。虽然最后因为祥子的机智而化解了危机，但这件事也对 Ave Mujica 带来了巨大的影响。",
+    "url": "bilibili://video/BV1C3cieNE3b"
+  }
 }

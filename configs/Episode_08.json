@@ -1,0 +1,16 @@
+{
+  "task_name": "Episode_08",
+  "trigger_time": "2026-02-20 22:00:00",
+  "timezone": "Asia/Shanghai",
+  "webhook_url": "https://api.day.app/push",
+  "method": "POST",
+  "body": {
+    "title": "BanG Dream! Ave Mujica",
+    "subtitle": "EP8: 你是多首的怪物。(Belua multorum es capitums.)",
+    "group": "Bangumi Notification",
+    "level": "timeSensitive",
+    "icon": "https://avemujica.bang-dream.com/favicon.ico",
+    "markdown": "> 普通的少女们，告别了曾经特别的容身之处与回忆。海铃因目睹 CRYCHIC 这般演奏而萌生的嫉妒，正逐渐蜕变为复活 Ave Mujica 的野心。",
+    "url": "bilibili://video/BV1JPAJeXEvG"
+  }
+}

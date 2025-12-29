@@ -1,0 +1,16 @@
+{
+  "task_name": "Episode_06",
+  "trigger_time": "2026-02-06 22:00:00",
+  "timezone": "Asia/Shanghai",
+  "webhook_url": "https://api.day.app/push",
+  "method": "POST",
+  "body": {
+    "title": "BanG Dream! Ave Mujica",
+    "subtitle": "EP6: 你将掌控心灵。(Animum reges.)",
+    "group": "Bangumi Notification",
+    "level": "timeSensitive",
+    "icon": "https://avemujica.bang-dream.com/favicon.ico",
+    "markdown": "> Mortis 试图依靠素世唤醒沉睡的睦。当 MyGO!!!!! 的成员们亲眼目睹那面目全非的睦时，她们……",
+    "url": "bilibili://video/BV1BGFAeaEBw"
+  }
+}

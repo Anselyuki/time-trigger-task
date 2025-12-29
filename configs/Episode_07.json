@@ -1,0 +1,16 @@
+{
+  "task_name": "Episode_07",
+  "trigger_time": "2026-02-13 22:00:00",
+  "timezone": "Asia/Shanghai",
+  "webhook_url": "https://api.day.app/push",
+  "method": "POST",
+  "body": {
+    "title": "BanG Dream! Ave Mujica",
+    "subtitle": "EP7: 雨过天晴。(Post nubila Phoebus.)",
+    "group": "Bangumi Notification",
+    "level": "timeSensitive",
+    "icon": "https://avemujica.bang-dream.com/favicon.ico",
+    "markdown": "> CRYCHIC 解散的真相猝不及防地被揭开。祥子背弃了睦、背弃了 Ave Mujica，甚至背弃了 CRYCHIC 本身，而她那些倔强的谎言，在曾经的 CRYCHIC 成员心中激起了不可忽视的涟漪。",
+    "url": "bilibili://video/BV1ZfNBeyE9S"
+  }
+}

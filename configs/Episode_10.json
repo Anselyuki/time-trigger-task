@@ -1,0 +1,16 @@
+{
+  "task_name": "Episode_10",
+  "trigger_time": "2026-03-06 22:00:00",
+  "timezone": "Asia/Shanghai",
+  "webhook_url": "https://api.day.app/push",
+  "method": "POST",
+  "body": {
+    "title": "BanG Dream! Ave Mujica",
+    "subtitle": "EP10: 爱恨交织。(Odi et amo.)",
+    "group": "Bangumi Notification",
+    "level": "timeSensitive",
+    "icon": "https://avemujica.bang-dream.com/favicon.ico",
+    "markdown": "> 我愿倾尽我的一切。",
+    "url": "bilibili://video/BV1sdRcYdE9u"
+  }
+}

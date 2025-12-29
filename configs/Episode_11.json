@@ -1,0 +1,16 @@
+{
+  "task_name": "Episode_11",
+  "trigger_time": "2026-03-13 22:00:00",
+  "timezone": "Asia/Shanghai",
+  "webhook_url": "https://api.day.app/push",
+  "method": "POST",
+  "body": {
+    "title": "BanG Dream! Ave Mujica",
+    "subtitle": "EP11: 纵使焚身成灰，我亦要爱你。(Te ustus amem.)",
+    "group": "Bangumi Notification",
+    "level": "timeSensitive",
+    "icon": "https://avemujica.bang-dream.com/favicon.ico",
+    "markdown": "> 接下来将为您呈现的是，怀揣着秘密的，她的故事。",
+    "url": "bilibili://video/BV16FQwYGE4n"
+  }
+}

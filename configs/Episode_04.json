@@ -1,0 +1,16 @@
+{
+  "task_name": "Episode_04",
+  "trigger_time": "2026-01-23 22:00:00",
+  "timezone": "Asia/Shanghai",
+  "webhook_url": "https://api.day.app/push",
+  "method": "POST",
+  "body": {
+    "title": "BanG Dream! Ave Mujica",
+    "subtitle": "EP4: 演出已然落幕。(Acta estfabula.)",
+    "group": "Bangumi Notification",
+    "level": "timeSensitive",
+    "icon": "https://avemujica.bang-dream.com/favicon.ico",
+    "markdown": "> 在表面和内心两个世界都逐渐活跃的睦的帮助下，Ave Mujica 的话题度不断攀升。曾经的矛盾已经烟消云散，成员们其乐融融。面对焕发新魅力的Ave Mujica，祥子她却——",
+    "url": "bilibili://video/BV1kxf8YCEE1"
+}
+}

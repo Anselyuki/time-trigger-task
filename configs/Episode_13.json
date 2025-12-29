@@ -1,0 +1,16 @@
+{
+  "task_name": "Episode_13",
+  "trigger_time": "2026-03-27 22:00:00",
+  "timezone": "Asia/Shanghai",
+  "webhook_url": "https://api.day.app/push",
+  "method": "POST",
+  "body": {
+    "title": "BanG Dream! Ave Mujica",
+    "subtitle": "EP13: 循此苦旅，终抵繁星。(Per aspera ad astra.)",
+    "group": "Bangumi Notification",
+    "level": "timeSensitive",
+    "icon": "https://avemujica.bang-dream.com/favicon.ico",
+    "markdown": "> 她们一路走来的道路，以及如今所在之处的风景。「季节，已然更迭了......」",
+    "url": "bilibili://video/BV1j3ovYkEPd"
+  }
+}
