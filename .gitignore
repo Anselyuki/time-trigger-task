@@ -1,0 +1,17 @@
+# Ignore Python virtual environment
+.venv/
+__pycache__/
+
+# Ignore IDE-specific files and directories
+.idea/
+*.iml
+
+# Ignore Git-related files and directories
+.git/
+*.lock
+
+# Ignore temporary and build files
+*.log
+*.tmp
+build/
+dist/

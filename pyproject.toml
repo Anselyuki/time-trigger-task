@@ -1,0 +1,9 @@
+[project]
+name = "time-trigger-task"
+version = "0.1.0"
+description = "Time based webhook trigger with Python 3.14"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "requests",
+]

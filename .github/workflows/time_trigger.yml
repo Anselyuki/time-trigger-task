@@ -1,0 +1,44 @@
+name: Time Trigger Task
+on:
+  schedule:
+    # 每 15 分钟运行一次 (GitHub Action 最小间隔是 5 分钟，建议 10-30 分钟)
+    # 分钟 0, 15, 30, 45 执行
+    - cron: '*/15 * * * *'
+  workflow_dispatch: # 允许手动点击按钮触发，方便测试
+jobs:
+  run_tasks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 需要写权限来提交 executed 状态的更改
+    steps:
+      # 1. 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+      # 2. 安装 uv (极速 Python 包管理器)
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+      # 3. 设置 Python 环境 (uv 会自动管理，这里显式声明版本)
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12" # 建议用稳定版，3.14 还没正式发布，3.12/3.11 兼容性最好
+      # 4. 安装依赖
+      # 如果你没有 requirements.txt，可以直接用 uv run 自动安装临时依赖
+      # 下面的 run 步骤会自动处理 "import requests"
+      - name: Install dependencies
+        run: uv pip install requests
+      # 5. 运行脚本
+      - name: Run Task Script
+        env:
+          # 关键：将 GitHub Secret 注入为环境变量
+          DEVICE_KEYS: ${{ secrets.DEVICE_KEYS }}
+        # 使用 uv run 直接运行，确保依赖隔离
+        run: uv run main.py
+      # 6. 提交更改 (如果 main.py 修改了 json 文件的 executed 状态)
+      - name: Commit and Push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🤖 Auto: Update task status [skip ci]"
+          file_pattern: "configs/*.json" # 只提交 configs 目录下的 json 变化
