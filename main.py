@@ -4,9 +4,8 @@ import glob
 import copy
 import time
 from datetime import datetime
-from zoneinfo import ZoneInfo
-
 import requests
+import pytz  # 3.8 需要安装 pip install pytz
 
 # === 配置区域 ===
 CONFIG_DIR = "configs"
@@ -15,7 +14,6 @@ TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 ENV_KEY_NAME = "DEVICE_KEYS"
 MAX_RETRIES = 3  # 新增: 最大重试次数
 RETRY_DELAY = 2  # 新增: 每次重试间隔秒数
-
 
 def load_secret_keys():
     """
@@ -27,6 +25,7 @@ def load_secret_keys():
     keys_str = os.environ.get(ENV_KEY_NAME, "[]")
     try:
         keys = json.loads(keys_str)
+        # Python 3.8 f-string 兼容
         print(f"🔐 已加载 Keys 配置 (类型: {type(keys).__name__})")
         return keys
     except json.JSONDecodeError:
@@ -35,12 +34,14 @@ def load_secret_keys():
 
 
 def get_current_time(tz_name="Asia/Shanghai"):
-    """获取带时区的当前时间"""
+    """获取带时区的当前时间 (Python 3.8 兼容版)"""
     try:
-        return datetime.now(ZoneInfo(tz_name))
+        tz = pytz.timezone(tz_name)
+        return datetime.now(tz)
     except Exception:
-        # 如果时区名错误，回退到系统本地时间（通常是 UTC）
-        return datetime.now()
+        # 如果时区名错误，回退到 UTC 或本地时间
+        print(f"⚠️ 时区 '{tz_name}' 无效，使用 UTC")
+        return datetime.now(pytz.utc)
 
 
 def process_tasks():
@@ -77,11 +78,16 @@ def process_tasks():
             continue
 
         try:
-            # 解析触发时间并加上时区信息
-            trigger_time = datetime.strptime(trigger_time_str, TIME_FORMAT).replace(tzinfo=ZoneInfo(tz_name))
+            # 使用 pytz 处理时区
+            target_tz = pytz.timezone(tz_name)
+            # 解析时间字符串为 naive datetime (无时区)
+            naive_trigger_time = datetime.strptime(trigger_time_str, TIME_FORMAT)
+            # 本地化时间 (赋予时区信息)
+            trigger_time = target_tz.localize(naive_trigger_time)
+            # 获取当前带时区的时间
             current_time = get_current_time(tz_name)
         except ValueError as e:
-            print(f"   ❌ 时间格式错误: {e}")
+            print(f"   ❌ 时间格式错误或时区错误: {e}")
             continue
 
         # === 修改核心逻辑 ===
@@ -90,7 +96,7 @@ def process_tasks():
         diff_minutes = diff.total_seconds() / 60
 
         print(f"   ⏳ 设定: {trigger_time} | 当前: {current_time.strftime('%H:%M:%S')}")
-        print(f"   ⏳ 延迟: {diff_minutes:.1f} 分钟 (正数表示已到时间，负数表示未到)")
+        print(f"   ⏳ 延迟: {diff_minutes:.1f} 分钟")
 
         # 逻辑：
         # 1. diff_minutes >= 0: 表示当前时间已经过了设定时间（不提前触发）
@@ -122,7 +128,7 @@ def process_tasks():
                 resolved_list = []
 
                 if not original_list and secret_keys:
-                    print(f"      配置为空，注入 Secret 中所有 Keys")
+                    print("      配置为空，注入 Secret 中所有 Keys")
                     resolved_list = list(secret_keys.values())
                 else:
                     for item in original_list:
