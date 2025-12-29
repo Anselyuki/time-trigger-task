@@ -1,9 +1,7 @@
 name: Time Trigger Task
 on:
   schedule:
-    # 每 15 分钟运行一次 (GitHub Action 最小间隔是 5 分钟，建议 10-30 分钟)
-    # 分钟 0, 15, 30, 45 执行
-    - cron: '*/15 * * * *'
+    - cron: '*/5 * * * *'
   workflow_dispatch: # 允许手动点击按钮触发，方便测试
 jobs:
   run_tasks:
