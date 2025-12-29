@@ -26,7 +26,7 @@ jobs:
 
       # 6. 提交更改 (如果 main.py 修改了 json 文件的 executed 状态)
       - name: Commit and Push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "🤖 Auto: Update task status [skip ci]"
           file_pattern: "configs/*.json" # 只提交 configs 目录下的 json 变化
