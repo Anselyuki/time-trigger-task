@@ -2,7 +2,7 @@ import os
 import json
 import glob
 import copy
-import time  # 新增: 用于重试等待
+import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -10,7 +10,7 @@ import requests
 
 # === 配置区域 ===
 CONFIG_DIR = "configs"
-TOLERANCE_MINUTES = 150000
+TOLERANCE_MINUTES = 30
 TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 ENV_KEY_NAME = "DEVICE_KEYS"
 MAX_RETRIES = 3  # 新增: 最大重试次数
@@ -84,14 +84,18 @@ def process_tasks():
             print(f"   ❌ 时间格式错误: {e}")
             continue
 
-        # 计算时间差
-        diff = trigger_time - current_time
-        diff_minutes = abs(diff.total_seconds()) / 60
+        # === 修改核心逻辑 ===
+        # 计算时间差 (当前时间 - 设定时间)
+        diff = current_time - trigger_time
+        diff_minutes = diff.total_seconds() / 60
 
         print(f"   ⏳ 设定: {trigger_time} | 当前: {current_time.strftime('%H:%M:%S')}")
-        print(f"   ⏳ 误差: {diff_minutes:.1f} 分钟")
+        print(f"   ⏳ 延迟: {diff_minutes:.1f} 分钟 (正数表示已到时间，负数表示未到)")
 
-        if diff_minutes <= TOLERANCE_MINUTES:
+        # 逻辑：
+        # 1. diff_minutes >= 0: 表示当前时间已经过了设定时间（不提前触发）
+        # 2. diff_minutes <= TOLERANCE_MINUTES: 表示在设定时间后的30分钟内（有效期）
+        if 0 <= diff_minutes <= TOLERANCE_MINUTES:
             print("   🚀 准备执行...")
 
             url = data.get("webhook_url")
@@ -172,7 +176,10 @@ def process_tasks():
                 print(f"   ⛔️ 最终失败: 已重试 {MAX_RETRIES} 次，放弃执行")
 
         else:
-            print("   zzz 非触发时间窗口")
+            if diff_minutes < 0:
+                print("   zzz 时间未到，稍后重试")
+            else:
+                print(f"   🚫 已过期 (超过 {TOLERANCE_MINUTES} 分钟)，不再执行")
 
     if files_changed:
         print("\n🏁 有任务状态更新，GitHub Action 将自动 Commit。")
