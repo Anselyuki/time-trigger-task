@@ -2,7 +2,6 @@ import os
 import copy
 import time
 from datetime import datetime
-import requests
 import pytz
 from time_trigger_task import task_io
 
@@ -17,7 +16,6 @@ RETRY_DELAY = 2
 
 def load_secret_keys():
     """从环境变量加载 Keys"""
-    # 这里依然使用标准库 json，因为处理的是环境变量字符串，没必要走 Rust IO
     import json
     keys_str = os.environ.get(ENV_KEY_NAME, "[]")
     try:
@@ -53,13 +51,12 @@ def process_tasks():
             # ✅ 调用 Rust: 安全读取并解析 JSON
             data = task_io.read_config(config_file)
         except Exception as e:
-            # Rust 抛出的 PyIOError 或 PyValueError 会被这里捕获
             print(f"   ❌ (Rust内核) 读取失败: {e}")
             continue
         if data.get("executed") is True:
             print("   ⏭️ 跳过: 任务已标记为已执行")
             continue
-        # --- 以下逻辑保持原样 (Python 处理动态逻辑最方便) ---
+
         trigger_time_str = data.get("trigger_time")
         tz_name = data.get("timezone", "Asia/Shanghai")
         if not trigger_time_str:
@@ -87,7 +84,8 @@ def process_tasks():
 
             if "device_keys" not in payload:
                 payload["device_keys"] = []
-            # 注入 Key 逻辑
+
+            # --- 注入 Key 逻辑 (保持 Python 处理灵活性) ---
             if isinstance(secret_keys, list) and secret_keys:
                 print(f"      注入 {len(secret_keys)} 个 Keys (追加模式)")
                 payload["device_keys"] = list(
@@ -106,26 +104,40 @@ def process_tasks():
                         else:
                             resolved_list.append(item)
                 payload["device_keys"] = resolved_list
-            # 发送请求
+
+            # --- 发送请求 (替换为 Rust 绑定) ---
             success = False
             for attempt in range(1, MAX_RETRIES + 1):
                 try:
-                    print(f"      📡 发送请求... (尝试 {attempt}/{MAX_RETRIES})")
-                    if method == 'GET':
-                        resp = requests.get(url, params=payload, timeout=20)
-                    else:
-                        resp = requests.post(url, json=payload, timeout=20)
-                    if 200 <= resp.status_code < 300:
-                        print(f"   ✅ 发送成功! 状态码: {resp.status_code}")
+                    print(
+                        f"      📡 (Rust内核) 发送请求... (尝试 {attempt}/{MAX_RETRIES})")
+
+                    # ✅ 调用 Rust: 发送 HTTP 请求
+                    # 参数: method, url, payload, timeout(秒)
+                    # 返回: (status_code, body_text)
+                    status_code, resp_text = task_io.send_request(
+                        method,
+                        url,
+                        payload,
+                        20  # timeout
+                    )
+
+                    if 200 <= status_code < 300:
+                        print(f"   ✅ 发送成功! 状态码: {status_code}")
                         success = True
                         break
                     else:
-                        print(f"   ⚠️ 失败: 服务器返回 {resp.status_code}")
-                except requests.exceptions.RequestException as req_err:
-                    print(f"   ❌ 网络请求异常: {req_err}")
+                        print(f"   ⚠️ 失败: 服务器返回 {status_code}")
+                        # 可选: 打印返回内容帮助调试
+                        # print(f"      响应: {resp_text[:100]}...")
+
+                except Exception as req_err:
+                    # Rust 抛出的 PyConnectionError 等异常会在这里被捕获
+                    print(f"   ❌ (Rust内核) 网络异常: {req_err}")
 
                 if attempt < MAX_RETRIES:
                     time.sleep(RETRY_DELAY)
+
             if success:
                 data["executed"] = True
                 data["executed_at"] = current_time.strftime(TIME_FORMAT)
