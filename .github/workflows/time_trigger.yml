@@ -28,7 +28,7 @@ jobs:
           DEVICE_KEYS: ${{ secrets.DEVICE_KEYS }}
         run: |
           uv sync
-          # 直接使用 sync 安装好的环境里的 maturin
+          uv tool install maturin
           uv run maturin develop --release
           uv run python/time_trigger_task/__init__.py
       - name: Commit and Push changes
