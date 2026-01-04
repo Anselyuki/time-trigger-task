@@ -6,26 +6,44 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      # 配置 uv 缓存目录，方便 cache action 捕获
+      UV_CACHE_DIR: /tmp/.uv-cache
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      # 1. 安装 Rust (编译必备)
+      # 1. 安装 Rust
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
-      # 2. 安装 uv
+      # 2. 缓存 Rust (Cargo) 依赖
+      # 使用官方推荐的 Swatinem/rust-cache，它非常智能，无需手动配置 key
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+        with:
+          # 缓存 key 默认基于 Cargo.lock，如果改了 rust 代码也会智能处理
+          workspaces: "."
+      # 3. 安装 uv 并开启自带缓存功能
+      # setup-uv@v5 自带 enable-cache 选项，非常方便
       - name: Install uv
         uses: astral-sh/setup-uv@v5
-      # 3. 设置 Python
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock" # 或者 pyproject.toml
+      # 4. 设置 Python
       - name: Set up Python
         run: uv python install
-      # 4. 一键安装依赖 & 编译 & 运行
+      # 5. 构建与运行
       - name: Build and Run
         env:
           DEVICE_KEYS: ${{ secrets.DEVICE_KEYS }}
         run: |
-          uv sync
-          uv tool install maturin
+          # A. 同步依赖 (利用 uv 缓存)
+          # 确保 maturin 在 pyproject.toml 的 dev 依赖中
+          uv sync --frozen 
+          # B. 编译 Rust 扩展 (利用 rust-cache)
+          # 注意：不要用 uv tool install maturin，直接用 venv 里的
           uv run maturin develop --release
+          # C. 运行脚本
           uv run python/time_trigger_task/__init__.py
       - name: Commit and Push changes
         uses: stefanzweifel/git-auto-commit-action@v5
