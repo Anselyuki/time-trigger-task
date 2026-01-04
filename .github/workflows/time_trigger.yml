@@ -5,26 +5,29 @@ jobs:
   run_tasks:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # 需要写权限来提交 executed 状态的更改
+      contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
-
+        uses: actions/checkout@v4
+      # 1. 安装 Rust (编译必备)
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      # 2. 安装 uv
       - name: Install uv
-        uses: astral-sh/setup-uv@v7
-
+        uses: astral-sh/setup-uv@v5
+      # 3. 设置 Python
       - name: Set up Python
         run: uv python install
-
-      - name: Run Task Script
+      # 4. 一键安装依赖 & 编译 & 运行
+      - name: Build and Run
         env:
-          # 关键：将 GitHub Secret 注入为环境变量
           DEVICE_KEYS: ${{ secrets.DEVICE_KEYS }}
-        run: uv run __init__.py
-
-      # 6. 提交更改 (如果 __init__.py 修改了 json 文件的 executed 状态)
+        run: |
+          uv sync
+          uv run maturin develop --release
+          uv run __init__.py
       - name: Commit and Push changes
-        uses: stefanzweifel/git-auto-commit-action@v7
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "🤖 Auto: Update task status [skip ci]"
-          file_pattern: "configs/*.json" # 只提交 configs 目录下的 json 变化
+          file_pattern: "configs/*.json"
