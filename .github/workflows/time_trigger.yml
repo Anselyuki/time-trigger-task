@@ -24,6 +24,7 @@ jobs:
           DEVICE_KEYS: ${{ secrets.DEVICE_KEYS }}
         run: |
           uv sync
+          uv tool install maturin
           uv run maturin develop --release
           uv run __init__.py
       - name: Commit and Push changes
