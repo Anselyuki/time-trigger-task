@@ -20,9 +20,9 @@ jobs:
         env:
           # 关键：将 GitHub Secret 注入为环境变量
           DEVICE_KEYS: ${{ secrets.DEVICE_KEYS }}
-        run: uv run main.py
+        run: uv run __init__.py
 
-      # 6. 提交更改 (如果 main.py 修改了 json 文件的 executed 状态)
+      # 6. 提交更改 (如果 __init__.py 修改了 json 文件的 executed 状态)
       - name: Commit and Push changes
         uses: stefanzweifel/git-auto-commit-action@v7
         with:

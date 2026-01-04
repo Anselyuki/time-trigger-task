@@ -15,3 +15,8 @@ __pycache__/
 *.tmp
 build/
 dist/
+target/
+
+# Ignore compiled shared object files
+*.so
+.DS_Store

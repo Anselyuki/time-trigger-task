@@ -3,8 +3,15 @@ name = "time-trigger-task"
 version = "0.1.0"
 description = "Time based webhook trigger with Python 3.14"
 readme = "README.md"
-requires-python = ">=3.8"
-dependencies = [
-    "pytz",
-    "requests",
-]
+requires-python = "==3.12.*"
+dependencies = ["pytz", "requests"]
+
+# Maturin build system configuration
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+# Maturin configuration
+[tool.maturin]
+python-source = "python"
+module-name = "time_trigger_task.task_io"

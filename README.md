@@ -68,10 +68,10 @@ Git 仓库以防止重复执行。
 3. **运行脚本**:
    ```bash
    # 默认使用 pyproject.toml 指定的版本 (>=3.12)
-   uv run main.py
+   uv run __init__.py
    
    # 或者强制使用特定版本测试 (需本地已安装对应 Python)
-   uv run --python 3.12 main.py
+   uv run --python 3.12 __init__.py
    ```
 
 ## 🤖 GitHub Actions 配置

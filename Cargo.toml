@@ -1,0 +1,20 @@
+[package]
+name = "task_io"   # 这决定了 Python 中 import 的名字
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "task_io"
+crate-type = ["cdylib"]
+
+[dependencies]
+# 核心绑定库
+pyo3 = { version = "0.20", features = ["extension-module"] }
+# JSON 和序列化
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# 文件查找
+glob = "0.3"
+# 方便地在 Python <-> Rust JSON 之间转换
+pythonize = "0.20"
