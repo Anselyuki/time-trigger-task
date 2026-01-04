@@ -26,7 +26,7 @@ jobs:
           uv sync
           uv tool install maturin
           uv run maturin develop --release
-          uv run __init__.py
+          uv run python/time_trigger_task/__init__.py
       - name: Commit and Push changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
